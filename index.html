@@ -1,857 +1,417 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ANVAYA 2K26 | CSE 2 Freshers' Party | MGIT</title>
-  <meta name="description"
-    content="Official portal for ANVAYA 2K26 - The grand freshers' celebration hosted with fondness by CSE 2 for the incoming batch at Mahatma Gandhi Institute of Technology.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ANVAYA 2026 · Bonds Beyond Beginnings — CSE 2, MGIT</title>
+  <meta name="description" content="ANVAYA 2026 — the freshers' celebration hosted by the seniors of CSE 2 at Mahatma Gandhi Institute of Technology. Thursday, 15 October 2026, 9:30 AM, E-201.">
+  <meta name="theme-color" content="#061617">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ANVAYA 2026 · Bonds Beyond Beginnings">
+  <meta property="og:description" content="The CSE 2 freshers' celebration at MGIT. Thursday, 15 October 2026 · 9:30 AM · E-201.">
+  <meta property="og:image" content="images/brand/og-card.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="images/brand/og-card.jpg">
+  <link rel="icon" href="images/brand/wordmark-key-sm.webp" type="image/webp">
 
-  <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="ANVAYA 2K26 — CSE 2 Freshers' Celebration | MGIT">
-  <meta property="og:description"
-    content="Where It All Begins. The OGs of CSE 2 welcome the newest batch to MGIT. Thursday, 15 October 2026 at E-201.">
-  <meta property="og:image" content="images/poster.jpeg">
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:image" content="images/poster.jpeg">
-
-  <!-- Tailwind CDN (v3 script) for utility styling compatibility -->
-  <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            obsidian: '#070403',
-            gold: {
-              50: '#FFFDF7',
-              100: '#FEF9C3',
-              200: '#FEF08A',
-              300: '#FDE047',
-              400: '#FACC15',
-              500: '#F59E0B',
-              600: '#D97706',
-              700: '#B45309',
-              800: '#92400E',
-              900: '#78350F'
-            },
-            champagne: '#FEF3C7',
-            electric: '#F59E0B',
-            'electric-bright': '#FBBF24',
-            ice: '#FEF08A',
-            'ice-light': '#FFFBEB',
-            silver: '#FDE68A',
-            'silver-light': '#FEF3C7',
-            blossom: '#F59E0B'
-          },
-          fontFamily: {
-            serif: ['Cinzel', 'Georgia', 'serif'],
-            sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
-            mono: ['ui-monospace', 'monospace']
-          }
-        }
-      }
-    }
+    document.documentElement.classList.add('js');
+    // failsafe: if the scripts never start, never leave the site hidden behind the opening
+    setTimeout(function () {
+      var h = document.documentElement;
+      if (!h.classList.contains('intro-active') && !h.classList.contains('world-entered')) h.classList.add('world-entered', 'intro-failed');
+    }, 5000);
   </script>
 
-  <!-- Custom Design System -->
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap">
+  <link rel="preload" as="image" href="images/brand/wordmark-key.webp" type="image/webp">
+
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/intro.css">
+  <link rel="stylesheet" href="css/chapters.css">
 </head>
 
-<body class="bg-[#070403] text-[#FFFDF7] antialiased overflow-x-hidden min-h-screen">
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- =========================================================================
-       1. THE GOLDEN THRESHOLD - OPENING ENTRANCE OVERLAY
-       ========================================================================= -->
-  <div id="portal-overlay" class="portal-overlay" role="region"
-    aria-label="The Golden Threshold - Step into ANVAYA 2K26" tabindex="0">
-    <!-- Warm amber background glow inside threshold -->
-    <div class="absolute inset-0 bg-gradient-to-b from-[#070403] via-[#140b07] to-[#070403] pointer-events-none"></div>
-    <div
-      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[520px] h-[340px] sm:h-[520px] rounded-full bg-[radial-gradient(circle,rgba(245,158,11,0.35)_0%,rgba(217,119,6,0.18)_45%,transparent_70%)] blur-[75px] pointer-events-none">
-    </div>
+  <!-- The living ground: marble shader, moon-and-city scene, metallic dust, film grain -->
+  <div class="world" aria-hidden="true">
+    <div class="world-fallback"></div>
+    <canvas id="world-marble" class="world-layer"></canvas>
+    <canvas id="world-scene" class="world-layer"></canvas>
+    <canvas id="world-dust" class="world-layer"></canvas>
+    <div class="world-grain"></div>
+  </div>
 
-    <!-- Skip Intro Button -->
-    <button id="portal-skip-btn"
-      class="self-end z-30 flex items-center gap-2 px-4 py-2 rounded-full text-[11px] font-mono tracking-widest uppercase text-amber-200/80 hover:text-white bg-amber-500/10 border border-amber-500/25 hover:border-amber-400 backdrop-blur-md transition-all focus:outline-none focus:ring-1 focus:ring-amber-400 cursor-pointer">
-      <span>Skip Intro</span>
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        class="text-amber-400">
-        <polyline points="9 18 15 12 9 6" />
-      </svg>
-    </button>
-
-    <!-- Centerpiece -->
-    <div class="relative flex-1 w-full max-w-4xl flex flex-col items-center justify-center my-auto z-20">
-      <!-- Tag above seal -->
-      <div class="flex items-center gap-3 mb-6">
-        <div class="h-px w-8 sm:w-16 bg-gradient-to-r from-transparent to-amber-400/60"></div>
-        <span class="text-[11px] sm:text-xs font-mono font-medium tracking-[0.45em] text-amber-200/90 uppercase">AN
-          EXPERIENCE BY CSE 2</span>
-        <div class="h-px w-8 sm:w-16 bg-gradient-to-l from-transparent to-amber-400/60"></div>
-      </div>
-
-      <!-- Royal Golden Sunburst Seal & Entrance Trigger -->
-      <div id="portal-crystal" class="crystal-centerpiece will-change-transform group">
-        <!-- Concentric Solar Rings & Rays -->
-        <svg class="absolute inset-0 w-full h-full pointer-events-none select-none" viewBox="0 0 400 400" fill="none">
-          <ellipse cx="200" cy="200" rx="180" ry="70" transform="rotate(-24 200 200)" stroke="url(#goldRing1)"
-            stroke-width="1.5" stroke-dasharray="8 6" class="opacity-80"></ellipse>
-          <ellipse cx="200" cy="200" rx="165" ry="55" transform="rotate(32 200 200)" stroke="url(#goldRing2)"
-            stroke-width="1.2" class="opacity-70"></ellipse>
-          <circle cx="200" cy="200" r="135" stroke="rgba(254, 240, 138, 0.25)" stroke-width="1" stroke-dasharray="4 8">
-          </circle>
-          <circle cx="200" cy="200" r="105" stroke="rgba(245, 158, 11, 0.35)" stroke-width="1.2">
-          </circle>
-          <defs>
-            <linearGradient id="goldRing1" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#FEF08A" stop-opacity="0.9"></stop>
-              <stop offset="50%" stop-color="#F59E0B" stop-opacity="0.8"></stop>
-              <stop offset="100%" stop-color="#78350F" stop-opacity="0.4"></stop>
-            </linearGradient>
-            <linearGradient id="goldRing2" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#B45309" stop-opacity="0.3"></stop>
-              <stop offset="60%" stop-color="#FDE047" stop-opacity="0.9"></stop>
-              <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.6"></stop>
-            </linearGradient>
-          </defs>
-        </svg>
-
-        <!-- Golden Sunburst Seal Medallion -->
-        <div
-          class="relative w-44 h-44 sm:w-52 sm:h-52 rounded-full p-1 bg-gradient-to-tr from-amber-600 via-[#FEF08A] to-amber-500 shadow-[0_0_45px_rgba(245,158,11,0.65)] flex items-center justify-center transition-transform group-hover:scale-105 duration-500">
-          <div
-            class="w-full h-full rounded-full bg-gradient-to-b from-[#24130b] via-[#140b07] to-[#0a0503] flex flex-col items-center justify-center border border-amber-400/40 relative overflow-hidden">
-            <!-- Radiant Background Rays -->
-            <div
-              class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(251,191,36,0.25)_0%,transparent_70%)]">
-            </div>
-
-            <!-- Golden Sun Emblem Icon -->
-            <svg width="68" height="68" viewBox="0 0 24 24" fill="none"
-              class="text-amber-300 drop-shadow-[0_0_15px_rgba(251,191,36,0.9)] animate-spin-very-slow"
-              stroke="currentColor" stroke-width="1.4">
-              <circle cx="12" cy="12" r="4" fill="url(#sunCoreGrad)" />
-              <path
-                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
-                stroke-linecap="round" />
-              <defs>
-                <radialGradient id="sunCoreGrad" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stop-color="#FFFFFF" />
-                  <stop offset="60%" stop-color="#FDE047" />
-                  <stop offset="100%" stop-color="#D97706" />
-                </radialGradient>
-              </defs>
-            </svg>
-
-            <span
-              class="font-serif text-sm sm:text-base font-extrabold tracking-[0.35em] text-[#FEF08A] uppercase mt-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">ANVAYA</span>
-            <span class="text-[9px] font-mono tracking-widest text-amber-300/80 uppercase">CSE 2 • 2K26</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Action Prompt -->
-      <div id="portal-pull-cta" class="mt-8 flex flex-col items-center justify-center cursor-pointer group">
-        <div
-          class="flex items-center gap-2.5 px-6 py-2 rounded-full bg-gradient-to-r from-amber-500/20 via-yellow-400/20 to-amber-500/20 border border-amber-400/50 group-hover:border-amber-300 shadow-[0_0_20px_rgba(245,158,11,0.35)] transition-all group-hover:scale-105">
-          <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
-          <span
-            class="font-sans text-xs sm:text-sm font-bold tracking-[0.3em] uppercase text-amber-100 group-hover:text-white transition-colors">STEP
-            INTO THE CELEBRATION</span>
-          <svg width="14" height="14" class="text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2">
-            <path d="m19 9-7 7-7-7" />
-          </svg>
-        </div>
-        <div
-          class="flex items-center gap-1.5 mt-2 text-[11px] sm:text-xs tracking-widest text-amber-200/70 uppercase font-sans">
-          <span>Scroll, swipe, or click to enter</span>
-          <svg width="14" height="14" class="text-amber-400 animate-bounce" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2">
-            <path d="M12 5v14M19 12l-7 7-7-7" />
-          </svg>
-        </div>
-      </div>
-
-      <button id="portal-enter-btn"
-        class="mt-5 px-8 py-2.5 rounded-full text-xs font-black uppercase tracking-[0.25em] text-[#0c0704] bg-gradient-to-r from-[#FFFBEB] via-[#FDE047] to-[#F59E0B] hover:from-white hover:to-amber-400 shadow-[0_0_28px_rgba(245,158,11,0.7)] hover:scale-105 transition-all focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer">
-        ENTER ANVAYA
+  <!-- =====================================================================
+       EXPERIENCE ONE — THE AWAKENING
+       ===================================================================== -->
+  <div id="awakening" class="awakening" role="dialog" aria-modal="true" aria-labelledby="aw-title" aria-describedby="aw-hint" tabindex="-1">
+    <div class="aw-top">
+      <button type="button" class="chip" data-sound aria-pressed="false">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="ico-wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <span data-sound-label>Sound off</span>
+      </button>
+      <button type="button" class="chip" data-skip>
+        <span>Skip intro</span>
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l7 6-7 6M14 6l7 6-7 6"/></svg>
       </button>
     </div>
 
-    <!-- Threshold Footer -->
-    <div class="z-20 text-[10px] tracking-[0.25em] text-amber-200/60 uppercase font-mono text-center">
-      CSE 2 • MAHATMA GANDHI INSTITUTE OF TECHNOLOGY
-    </div>
-  </div>
-
-
-  <!-- =========================================================================
-       2. AMBIENT BACKGROUNDS & CANVASES
-       ========================================================================= -->
-  <div class="bg-ambient-layer" aria-hidden="true">
-    <!-- Autumn Banyan Tree Background Wallpaper -->
-    <div class="site-bg-image-wrapper">
-      <div id="site-bg-image" class="site-bg-image"></div>
-      <div class="site-bg-overlay"></div>
-    </div>
-
-    <!-- Ambient Golden Lighting Orbs -->
-    <div class="ambient-orb -top-[15%] left-1/2 -translate-x-1/2 w-[95vw] max-w-[1300px] h-[750px] bg-[#f59e0b]/12">
-    </div>
-    <div class="ambient-orb top-[35%] -left-[10%] w-[650px] h-[650px] bg-[#140b07]/80"></div>
-    <div class="ambient-orb top-[60%] -right-[10%] w-[750px] h-[750px] bg-[#d97706]/10"></div>
-    <div class="spotlight-beam-left opacity-35"></div>
-    <div class="spotlight-beam-right opacity-35"></div>
-    <!-- Interactive golden solar stardust canvas -->
-    <canvas id="starfield-canvas" class="absolute inset-0 w-full h-full opacity-70"></canvas>
-    <!-- Dynamic falling golden leaves canvas -->
-    <canvas id="petals-canvas" class="absolute inset-0 w-full h-full z-20 pointer-events-none"></canvas>
-  </div>
-
-
-  <!-- =========================================================================
-       3. NAVIGATION BAR
-       ========================================================================= -->
-  <header id="main-navbar" class="navbar-fixed">
-    <div class="nav-container">
-      <!-- Logo Branding -->
-      <a href="#hero" class="flex items-center gap-2.5 text-white transition-opacity hover:opacity-90">
-        <div
-          class="w-7 h-7 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center shadow-[0_0_12px_rgba(245,158,11,0.6)]">
-          <span class="w-2 h-2 rounded-full bg-amber-300 animate-pulse"></span>
-        </div>
-        <span class="font-serif text-lg sm:text-xl font-bold tracking-widest metallic-text">ANVAYA</span>
-        <span
-          class="text-xs font-semibold px-1.5 py-0.5 rounded bg-amber-500/20 border border-amber-500/35 text-amber-300 tracking-wider uppercase">2K26</span>
-      </a>
-
-      <!-- Desktop Navlinks -->
-      <nav class="nav-pill hidden md:flex">
-        <a href="#schedule" class="nav-link">Schedule</a>
-        <a href="#faculty" class="nav-link">Faculty</a>
-        <a href="#gallery" class="nav-link">Memories</a>
-
-        <!-- Instagram Link -->
-        <a href="https://instagram.com/anvaya_mgit" target="_blank" rel="noopener noreferrer"
-          class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#0c0704] bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 hover:from-white hover:to-amber-400 px-3.5 py-1.5 rounded-full shadow-[0_0_15px_rgba(245,158,11,0.5)] transition-all ml-1">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-            <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-            <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-          </svg>
-          <span>Instagram</span>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-            <polyline points="15 3 21 3 21 9" />
-            <line x1="10" x2="21" y1="14" y2="3" />
-          </svg>
-        </a>
-      </nav>
-
-      <!-- Mobile Hamburger Button -->
-      <button id="mobile-menu-btn"
-        class="mobile-menu-btn md:hidden p-2 rounded-xl bg-amber-500/10 border border-amber-500/25 text-amber-200 hover:bg-amber-500/20"
-        aria-label="Toggle navigation menu">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="4" x2="20" y1="12" y2="12" />
-          <line x1="4" x2="20" y1="6" y2="6" />
-          <line x1="4" x2="20" y1="18" y2="18" />
-        </svg>
+    <div class="aw-stage">
+      <button type="button" class="aw-emblem" data-enter aria-label="Enter ANVAYA 2026">
+        <span class="wm" data-wordmark id="aw-wordmark">
+          <img class="wm-layer wm-gold" src="images/brand/wordmark-key.webp" alt="" width="1075" height="505" decoding="async">
+          <img class="wm-layer wm-true" src="images/brand/wordmark-key.webp" alt="" width="1075" height="505" decoding="async">
+          <img class="wm-layer wm-glint" src="images/brand/wordmark-key.webp" alt="" width="1075" height="505" decoding="async">
+        </span>
       </button>
+
+      <div class="aw-invite">
+        <h1 id="aw-title" class="aw-title">ANVAYA <span>2026</span></h1>
+        <p class="aw-tagline">Bonds Beyond Beginnings</p>
+        <button type="button" class="btn btn-gold aw-explore" data-enter data-magnetic>
+          <span>Explore ANVAYA</span>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+        <p id="aw-hint" class="aw-hint">Tap the emblem or explore to enter.</p>
+      </div>
     </div>
 
-    <!-- Mobile Drawer -->
-    <div id="mobile-drawer"
-      class="hidden md:hidden bg-[#0c0704]/95 border-b border-amber-500/20 backdrop-blur-xl px-4 pt-3 pb-6 mt-2">
-      <nav class="flex flex-col gap-2">
-        <a href="#schedule"
-          class="px-4 py-3 text-base font-medium text-amber-100 hover:text-white hover:bg-amber-500/10 rounded-xl">Schedule</a>
-        <a href="#faculty"
-          class="px-4 py-3 text-base font-medium text-amber-100 hover:text-white hover:bg-amber-500/10 rounded-xl">Faculty</a>
-        <a href="#gallery"
-          class="px-4 py-3 text-base font-medium text-amber-100 hover:text-white hover:bg-amber-500/10 rounded-xl">Memories</a>
-        <a href="https://instagram.com/anvaya_mgit" target="_blank" rel="noopener noreferrer"
-          class="flex items-center justify-between px-4 py-3 mt-2 text-base font-bold text-[#0c0704] bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 rounded-xl shadow-lg">
-          <span>Connect on Instagram (@anvaya_mgit)</span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-            <polyline points="15 3 21 3 21 9" />
-            <line x1="10" x2="21" y1="14" y2="3" />
-          </svg>
-        </a>
-      </nav>
+    <div class="threshold" aria-hidden="true">
+      <div class="th-gold"></div>
+      <div class="th-mineral"></div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       NAVIGATION
+       ===================================================================== -->
+  <header class="topbar" data-topbar>
+    <a class="topbar-mark" href="#world" aria-label="ANVAYA 2026 — back to the beginning">
+      <img src="images/brand/wordmark-key-sm.webp" alt="" width="537" height="252">
+    </a>
+    <p class="topbar-chapter" aria-hidden="true">
+      <span class="topbar-num" data-current-num>01</span>
+      <span class="topbar-title" data-current-title>The World of ANVAYA</span>
+    </p>
+    <div class="topbar-tools">
+      <button type="button" class="tool" data-sound aria-pressed="false" title="Ambient sound">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="ico-wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <span class="sr-only" data-sound-label>Sound off</span>
+      </button>
+      <button type="button" class="tool" data-motion-toggle aria-pressed="false" title="Reduce motion">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(-20 12 12)"/><circle cx="12" cy="12" r="2.2"/></svg>
+        <span class="tool-label">Reduce motion</span>
+      </button>
+      <button type="button" class="tool tool-menu" data-menu-open aria-expanded="false" aria-controls="menu">
+        <span class="tool-label">Chapters</span>
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M8 16h12"/></svg>
+      </button>
     </div>
   </header>
 
+  <nav class="rail" aria-label="Chapter progress" data-rail>
+    <span class="rail-line" aria-hidden="true"><span class="rail-fill"></span></span>
+    <ol class="rail-list"></ol>
+  </nav>
 
-  <!-- =========================================================================
-       4. HERO BANNER SECTION (Interactive Celestial Showcase & Golden Horizon)
-       ========================================================================= -->
-  <section id="hero"
-    class="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-16 px-4 sm:px-6 lg:px-12 overflow-hidden z-10">
-
-    <div class="w-full max-w-7xl mx-auto flex-1 flex flex-col justify-center my-auto py-6 relative z-10">
-
-      <!-- Top Imperial Emblem Badge -->
-      <div class="flex items-center justify-center gap-3 sm:gap-6 mb-8 sm:mb-12">
-        <div class="h-px w-12 sm:w-24 bg-gradient-to-r from-transparent via-amber-400/60 to-amber-400"></div>
-        <div
-          class="inline-flex items-center gap-2.5 px-4 sm:px-6 py-2 rounded-full bg-amber-500/10 border border-amber-400/30 backdrop-blur-md shadow-[0_0_20px_rgba(245,158,11,0.25)]">
-          <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
-          <span class="text-xs sm:text-sm font-bold tracking-[0.3em] uppercase text-amber-200">
-            MGIT HYDERABAD • DEPARTMENT OF CSE 2
-          </span>
-        </div>
-        <div class="h-px w-12 sm:w-24 bg-gradient-to-l from-transparent via-amber-400/60 to-amber-400"></div>
+  <div id="menu" class="menu" role="dialog" aria-modal="true" aria-label="Chapters" hidden>
+    <div class="menu-inner">
+      <div class="menu-head">
+        <p class="eyebrow">Chapters</p>
+        <button type="button" class="tool" data-menu-close>
+          <span class="tool-label">Close</span>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
       </div>
+      <ol class="menu-list"></ol>
+      <p class="menu-foot"><span data-bind="datetime.fullDateString">Thursday, 15 October 2026</span> · <span data-bind="datetime.venue">E-201</span>, <span data-bind="brand.institutionShort">MGIT</span></p>
+    </div>
+  </div>
 
-      <!-- Main Dual-Stage Hero Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+  <main id="main" tabindex="-1">
+    <svg class="thread" aria-hidden="true" focusable="false">
+      <path class="thread-base"/>
+      <path class="thread-lit"/>
+      <circle class="thread-head" r="3"/>
+    </svg>
 
-        <!-- Left / Centerpiece: Celestial Animated Art Frame -->
-        <div class="lg:col-span-5 flex flex-col items-center justify-center relative">
-          <!-- Solar Aura Backdrop -->
-          <div
-            class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-gradient-to-tr from-amber-600/30 via-yellow-500/20 to-amber-300/10 blur-[85px] pointer-events-none scale-125">
-          </div>
-
-          <div class="art-frame-container py-6">
-            <div class="art-frame emblem-awakening" data-reveal="emblem">
-              <img src="anvaya-2026-artwork.png" alt="Anvaya 2026 celestial artwork">
-              <span class="emblem-shine" aria-hidden="true"></span>
-              <span class="art-orbit orbit-a"></span>
-              <span class="art-orbit orbit-b"></span>
-            </div>
-          </div>
-
-          <!-- Celestial Micro Tag -->
-          <div
-            class="mt-4 flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#160d08]/80 border border-amber-500/30 backdrop-blur-md text-[11px] font-mono tracking-widest uppercase text-amber-300/90 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-            <span class="text-amber-400">✦</span>
-            <span>CELESTIAL EMBLEM • CLASS OF 2026</span>
-          </div>
+    <!-- =================================================================
+         CHAPTER 01 — THE WORLD OF ANVAYA
+         ================================================================= -->
+    <section id="world" class="chapter ch-world" data-chapter="01" data-title="The World of ANVAYA" data-mood="0" aria-labelledby="world-title">
+      <div class="ch-world__inner">
+        <div class="hero-mark">
+          <p class="eyebrow hero-in" style="--d:0">
+            <span data-bind="brand.department">CSE 2</span> · <span data-bind="brand.institution">Mahatma Gandhi Institute of Technology</span> presents
+          </p>
+          <h2 id="world-title" class="hero-wordmark hero-in" style="--d:1" tabindex="-1">
+            <span class="sr-only">ANVAYA 2026</span>
+            <span class="wm" data-wordmark id="hero-wordmark">
+              <img class="wm-layer wm-gold" src="images/brand/wordmark-key.webp" alt="" width="1075" height="505" decoding="async">
+              <img class="wm-layer wm-true" src="images/brand/wordmark-key.webp" alt="" width="1075" height="505" decoding="async">
+              <img class="wm-layer wm-glint" src="images/brand/wordmark-key.webp" alt="" width="1075" height="505" decoding="async">
+            </span>
+          </h2>
+          <p class="hero-tagline hero-in" style="--d:2" data-bind="brand.tagline">Bonds Beyond Beginnings</p>
+          <p class="hero-lede hero-in" style="--d:3"><span data-bind="welcome.body">CSE 2 invites its newest members to begin their MGIT journey with a day filled with energy, laughter, and unforgettable moments.</span></p>
+          <p class="hero-meaning hero-in" style="--d:4" data-bind="brand.meaning">In Sanskrit, anvaya is the thread of connection — what joins one thing to the next.</p>
         </div>
 
-        <!-- Right: Monumental Typography & Narrative Hub -->
-        <div class="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6">
-
-          <div class="space-y-2 w-full hero-copy" data-reveal="hero">
-            <div class="inline-block text-xs sm:text-sm font-mono font-bold tracking-[0.4em] uppercase text-amber-400">
-              THE ANNUAL FRESHERS' CONVERGENCE
+        <aside class="hero-panel hero-in" style="--d:3" aria-label="Event details">
+          <div class="countdown" data-countdown>
+            <p class="eyebrow countdown-label" data-countdown-label>The celebration begins in</p>
+            <div class="countdown-units" role="timer" aria-live="off">
+              <div class="cd-unit"><span class="cd-val" data-cd="d">00</span><span class="cd-name">Days</span></div>
+              <div class="cd-unit"><span class="cd-val" data-cd="h">00</span><span class="cd-name">Hours</span></div>
+              <div class="cd-unit"><span class="cd-val" data-cd="m">00</span><span class="cd-name">Minutes</span></div>
+              <div class="cd-unit"><span class="cd-val" data-cd="s">00</span><span class="cd-name">Seconds</span></div>
             </div>
-
-            <h1
-              class="font-serif text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight uppercase leading-none select-none text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
-              ANVAYA <span class="crystal-3d-text">2K26</span>
-            </h1>
+            <p class="countdown-status" data-countdown-status aria-live="polite"></p>
           </div>
 
-          <!-- Sanskrit Root & Poetic Vision -->
-          <div class="space-y-3 max-w-2xl">
-            <h2 class="font-serif text-xl sm:text-2xl md:text-3xl font-extrabold text-amber-200 tracking-wide">
-              Where Bonds Transcend &amp; Legends Awaken.
-            </h2>
-            <p class="text-sm sm:text-base md:text-lg text-amber-100/80 font-light leading-relaxed">
-              In ancient Sanskrit, <span class="text-amber-300 font-semibold italic">Anvaya</span> embodies the golden
-              thread uniting kindred souls, shared aspirations, and timeless lineage. The seniors of CSE 2 warmly invite
-              the freshman class of MGIT to step into an extraordinary evening of brotherhood, artistry, and everlasting
-              memories.
-            </p>
-          </div>
+          <dl class="colophon">
+            <div><dt>Date</dt><dd data-bind="datetime.fullDateString">Thursday, 15 October 2026</dd></div>
+            <div><dt>Time</dt><dd><span data-bind="datetime.time">9:30 AM</span> <span data-bind="datetime.timezone">IST</span> onwards</dd></div>
+            <div><dt>Venue</dt><dd><span data-bind="datetime.venue">E-201</span> · <span data-bind="datetime.venueLocation">MGIT Campus — E Block</span></dd></div>
+            <div><dt>Hosted by</dt><dd>The seniors of <span data-bind="brand.department">CSE 2</span>, Dept. of CSE</dd></div>
+          </dl>
 
-          <!-- Dynamic Date, Venue & Time Badges -->
-          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
-            <div
-              class="flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500/15 border border-amber-400/35 backdrop-blur-md shadow-[0_0_15px_rgba(245,158,11,0.2)] text-amber-100 text-xs sm:text-sm font-semibold tracking-wide">
-              <svg width="16" height="16" class="text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2">
-                <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
-                <line x1="16" x2="16" y1="2" y2="6" />
-                <line x1="8" x2="8" y1="2" y2="6" />
-                <line x1="3" x2="21" y1="10" y2="10" />
-              </svg>
-              <span>Thursday, 15 Oct 2026 • 9:30 AM IST</span>
-            </div>
-
-            <div
-              class="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-amber-500/25 backdrop-blur-md text-amber-200 text-xs sm:text-sm font-medium">
-              <svg width="15" height="15" class="text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2">
-                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                <circle cx="12" cy="12" r="3" />
-              </svg>
-              <span>Auditorium E-201 • MGIT Campus</span>
-            </div>
-          </div>
-
-          <!-- Interactive Action Controls -->
-          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-3">
-            <a href="#schedule"
-              class="flex items-center gap-2.5 px-7 py-3.5 rounded-full text-xs sm:text-sm font-black uppercase tracking-wider text-[#0c0704] bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 hover:scale-105 transition-all shadow-[0_0_25px_rgba(245,158,11,0.5)] cursor-pointer">
-              <span>Explore Itinerary</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
+          <div class="actions">
+            <a class="btn btn-gold" data-calendar href="#" target="_blank" rel="noopener noreferrer" data-magnetic>
+              <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="1.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+              <span>Add to Google Calendar</span>
             </a>
-
-            <a href="#faculty"
-              class="flex items-center gap-2 px-6 py-3.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-200 bg-white/5 border border-amber-500/30 hover:border-amber-400 hover:bg-amber-500/15 transition-all cursor-pointer">
-              <span>Faculty Leadership</span>
-            </a>
-
-            <a href="#memories"
-              class="flex items-center gap-2 px-6 py-3.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-200/70 hover:text-white transition-all cursor-pointer">
-              <span>Memory Vault</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
+            <a class="btn btn-line" href="#story">
+              <span>Create your invitation</span>
             </a>
           </div>
-
-        </div>
-
+          <a class="text-link small" data-ics href="#" download="anvaya-2026.ics">Or download an .ics calendar file</a>
+        </aside>
       </div>
 
-      <!-- Bottom Interactive Odyssey Deck (4 Acts at a Glance) -->
-      <div class="mt-14 sm:mt-16 pt-8 border-t border-amber-500/20">
-        <div class="text-center sm:text-left mb-4">
-          <span class="text-[11px] font-mono font-bold tracking-[0.3em] uppercase text-amber-300/80">
-            ✦ THE ANVAYA ODYSSEY AT A GLANCE
-          </span>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-          <div
-            class="glass-panel p-4 rounded-xl border-amber-500/25 hover:border-amber-400/60 hover:-translate-y-1 transition-all group cursor-default">
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-xs font-mono font-bold text-amber-400">ACT 01</span>
-              <span class="text-xs text-amber-300/60">09:30 AM</span>
-            </div>
-            <h4 class="font-serif text-sm font-bold text-white group-hover:text-amber-300 transition-colors">Inaugural
-              Lamp Lighting</h4>
-            <p class="text-xs text-amber-100/70 mt-1 font-light">Traditional floral reception & faculty blessing
-              address.</p>
-          </div>
-
-          <div
-            class="glass-panel p-4 rounded-xl border-amber-500/25 hover:border-amber-400/60 hover:-translate-y-1 transition-all group cursor-default">
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-xs font-mono font-bold text-amber-400">ACT 02</span>
-              <span class="text-xs text-amber-300/60">10:20 AM</span>
-            </div>
-            <h4 class="font-serif text-sm font-bold text-white group-hover:text-amber-300 transition-colors">Cultural
-              Showcase</h4>
-            <p class="text-xs text-amber-100/70 mt-1 font-light">Electrifying choreography & soulful live music
-              performances.</p>
-          </div>
-
-          <div
-            class="glass-panel p-4 rounded-xl border-amber-500/25 hover:border-amber-400/60 hover:-translate-y-1 transition-all group cursor-default">
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-xs font-mono font-bold text-amber-400">ACT 03</span>
-              <span class="text-xs text-amber-300/60">11:10 AM</span>
-            </div>
-            <h4 class="font-serif text-sm font-bold text-white group-hover:text-amber-300 transition-colors">The Rose
-              Ceremony</h4>
-            <p class="text-xs text-amber-100/70 mt-1 font-light">Honouring the freshers with tokens of warmth and
-              brotherhood.</p>
-          </div>
-
-          <div
-            class="glass-panel p-4 rounded-xl border-amber-500/25 hover:border-amber-400/60 hover:-translate-y-1 transition-all group cursor-default">
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-xs font-mono font-bold text-amber-400">ACT 04</span>
-              <span class="text-xs text-amber-300/60">12:00 PM</span>
-            </div>
-            <h4 class="font-serif text-sm font-bold text-white group-hover:text-amber-300 transition-colors">The Grand
-              Jam & DJ</h4>
-            <p class="text-xs text-amber-100/70 mt-1 font-light">Open floor celebration, energetic beats & batch
-              photograph.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Scroll cue -->
-      <a href="#watch-reveal"
-        class="mt-10 mx-auto flex flex-col items-center justify-center gap-1.5 text-amber-200/50 hover:text-amber-300 transition-colors cursor-pointer text-decoration-none">
-        <span class="text-[10px] uppercase tracking-[0.25em] font-mono">Discover More</span>
-        <svg width="16" height="16" class="animate-bounce text-amber-400" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2">
-          <path d="M12 5v14M19 12l-7 7-7-7" />
-        </svg>
+      <a class="scroll-cue hero-in" style="--d:5" href="#discover">
+        <span>Follow the thread</span>
+        <span class="scroll-cue-line" aria-hidden="true"></span>
       </a>
+    </section>
 
-    </div>
-  </section>
+    <!-- =================================================================
+         CHAPTER 02 — DISCOVER THE EXPERIENCE
+         ================================================================= -->
+    <section id="discover" class="chapter ch-discover" data-chapter="02" data-title="Discover the Experience" data-mood="0.65" aria-labelledby="discover-title">
+      <header class="ch-head reveal">
+        <p class="ch-index"><span class="ch-num">02</span><span class="ch-rule" aria-hidden="true"></span><span class="eyebrow">Discover the experience</span></p>
+        <h2 id="discover-title" class="ch-title">Six destinations, <em>one orbit.</em></h2>
+        <p class="ch-lede">Every point of light is a moment from the day’s programme. Hover or focus a destination to preview it; select it to open the details.</p>
+      </header>
 
-
-
-
-
-  <!-- =========================================================================
-       6. COUNTDOWN & ROYAL CHRONOGRAPH SECTION
-       ========================================================================= -->
-  <section id="watch-reveal"
-    class="relative min-h-[90vh] py-20 px-4 sm:px-6 lg:px-8 z-10 flex flex-col items-center justify-center overflow-hidden">
-    <div class="ambient-orb w-[600px] h-[600px] bg-amber-500/10"></div>
-
-    <div class="max-w-5xl mx-auto w-full flex flex-col items-center text-center">
-      <div class="flex items-center justify-center gap-3 mb-3">
-        <span class="text-xs sm:text-sm font-bold tracking-[0.35em] uppercase text-amber-300">The Countdown to
-          Inauguration</span>
-      </div>
-
-      <h2 class="font-serif text-3xl sm:text-5xl md:text-6xl font-bold text-[#FFFDF7] tracking-tight">
-        Countdown to <span class="metallic-text">15 October 2026</span>
-      </h2>
-      <p class="mt-3 text-base sm:text-xl text-amber-100/80 max-w-2xl font-light">
-        Every second brings us closer to the celebration. At 9:30 AM sharp, the doors of E-201 open for ANVAYA 2K26.
-      </p>
-
-      <!-- 4 Countdown Cards -->
-      <div class="w-full max-w-3xl my-10">
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
-          <div class="glass-panel p-5 sm:p-7 text-center border-amber-500/30">
-            <span id="count-days"
-              class="font-serif text-4xl sm:text-5xl md:text-6xl font-black metallic-text tracking-tight block">00</span>
-            <span
-              class="text-xs sm:text-sm font-semibold uppercase tracking-widest text-amber-300 mt-2 block">Days</span>
-          </div>
-          <div class="glass-panel p-5 sm:p-7 text-center border-amber-500/30">
-            <span id="count-hours"
-              class="font-serif text-4xl sm:text-5xl md:text-6xl font-black metallic-text tracking-tight block">00</span>
-            <span
-              class="text-xs sm:text-sm font-semibold uppercase tracking-widest text-amber-300 mt-2 block">Hours</span>
-          </div>
-          <div class="glass-panel p-5 sm:p-7 text-center border-amber-500/30">
-            <span id="count-minutes"
-              class="font-serif text-4xl sm:text-5xl md:text-6xl font-black metallic-text tracking-tight block">00</span>
-            <span
-              class="text-xs sm:text-sm font-semibold uppercase tracking-widest text-amber-300 mt-2 block">Minutes</span>
-          </div>
-          <div class="glass-panel p-5 sm:p-7 text-center border-amber-500/30">
-            <span id="count-seconds"
-              class="font-serif text-4xl sm:text-5xl md:text-6xl font-black text-amber-300 drop-shadow-[0_0_12px_#f59e0b] tracking-tight block">00</span>
-            <span
-              class="text-xs sm:text-sm font-semibold uppercase tracking-widest text-amber-300 mt-2 block">Seconds</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 3D Gyro Royal Chronograph & Real-Time Clock Active Indicator -->
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-8 w-full max-w-xl">
-        <div id="watch-housing" class="watch-housing">
-          <div class="watch-dial">
-            <span
-              class="absolute top-[26%] font-serif text-[7.5px] font-bold tracking-widest text-amber-200">ANVAYA</span>
-            <div class="watch-center-pin"></div>
-            <div id="watch-hour-hand" class="watch-hand-hour"></div>
-            <div id="watch-min-hand" class="watch-hand-minute"></div>
-            <div id="watch-sec-hand" class="watch-hand-second"></div>
-          </div>
-        </div>
-
-        <div class="text-center sm:text-left">
-          <div
-            class="flex items-center justify-center sm:justify-start gap-1.5 text-xs font-semibold text-amber-300 uppercase tracking-wider mb-1">
-            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-            <span>Real-Time Local Clock Active</span>
-          </div>
-          <p class="text-sm text-amber-100/80 font-light">
-            Official Inauguration programmed for <strong class="text-white">Thursday, 15 Oct 2026</strong> at
-            <strong>09:30 AM IST</strong>.
-          </p>
-        </div>
-      </div>
-
-      <!-- Upcoming Event Preview -->
-      <div class="w-full max-w-xl">
-        <div class="glass-panel p-6 sm:p-8 border-amber-500/30 text-left">
-          <div class="flex items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-              <div
-                class="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.4)]">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path
-                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                </svg>
-              </div>
-              <div>
-                <span class="text-xs font-mono uppercase tracking-widest text-amber-300">09:30 AM IST • E-201</span>
-                <h4 class="font-serif text-lg font-bold text-white">Welcoming Guests & Inauguration</h4>
-              </div>
-            </div>
-            <a href="#schedule"
-              class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-[#0c0704] bg-gradient-to-r from-amber-400 to-yellow-400 hover:scale-105 transition-all shrink-0">
-              Details
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- =========================================================================
-       7. CURATED SCHEDULE TIMELINE (The 7 Custom Events)
-       ========================================================================= -->
-  <section id="schedule" class="relative min-h-screen py-24 px-4 sm:px-6 lg:px-8 z-10 overflow-hidden">
-    <div class="ambient-orb -top-20 -right-20 w-[600px] h-[600px] bg-amber-500/10"></div>
-    <div class="ambient-orb -bottom-20 -left-20 w-[600px] h-[600px] bg-amber-600/10"></div>
-
-    <div class="max-w-5xl mx-auto w-full relative z-10">
-      <div class="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-        <div class="flex items-center justify-center gap-3 mb-3">
-          <span class="text-xs sm:text-sm font-bold tracking-[0.35em] uppercase text-amber-300">Event Itinerary</span>
-        </div>
-        <h2 class="font-serif text-3xl sm:text-5xl md:text-6xl font-extrabold text-[#FFFDF7] tracking-tight uppercase">
-          Curated <span class="metallic-text">Schedule</span>
-        </h2>
-        <p class="mt-4 text-base sm:text-xl text-amber-100/80 font-light max-w-2xl mx-auto">
-          A meticulously choreographed itinerary of joy, speeches, performances, ceremonies, and jamming.
-        </p>
-      </div>
-
-      <!-- Interactive Schedule Showcase Console -->
-      <div id="schedule-container" class="relative z-10 w-full">
-        <div id="schedule-list" class="relative z-10"></div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- =========================================================================
-       8. GUESTS OF HONOR & FACULTY LEADERSHIP
-       ========================================================================= -->
-  <section id="faculty" class="relative min-h-[80vh] py-24 px-4 sm:px-6 lg:px-8 z-10 overflow-hidden">
-    <div class="ambient-orb top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-amber-500/10">
-    </div>
-
-    <div class="max-w-7xl mx-auto w-full relative z-10">
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <div class="flex items-center justify-center gap-3 mb-3">
-          <span class="text-xs sm:text-sm font-bold tracking-[0.35em] uppercase text-amber-300">Guests of Honor</span>
-        </div>
-        <h2 class="font-serif text-3xl sm:text-5xl md:text-6xl font-extrabold text-[#FFFDF7] tracking-tight uppercase">
-          Faculty <span class="metallic-text">Leadership</span>
-        </h2>
-        <p class="mt-4 text-base sm:text-xl text-amber-100/80 font-light max-w-2xl mx-auto">
-          Guiding the vision of MGIT and inspiring the department of CSE 2.
-        </p>
-      </div>
-
-      <!-- Faculty 4-Grid Container -->
-      <div id="faculty-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"></div>
-    </div>
-  </section>
-
-
-  <!-- =========================================================================
-       9. ARCHIVED MEMORIES & GALLERY
-       ========================================================================= -->
-  <section id="gallery"
-    class="relative min-h-[80vh] py-24 px-4 sm:px-6 lg:px-8 z-10 overflow-hidden flex flex-col justify-center">
-    <div class="ambient-orb top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[550px] bg-amber-500/10">
-    </div>
-    <div class="max-w-7xl mx-auto w-full relative z-10">
-
-      <div class="text-center max-w-3xl mx-auto mb-12">
-        <div class="flex items-center justify-center gap-3 mb-3">
-          <span class="text-xs sm:text-sm font-bold tracking-[0.35em] uppercase text-amber-300">Archived Memories &
-            Legacy</span>
-        </div>
-        <h2 class="font-serif text-3xl sm:text-5xl md:text-6xl font-extrabold text-[#FFFDF7] tracking-tight">
-          Explore Our <span class="metallic-text">Past Freshers Memories</span>
-        </h2>
-        <p class="mt-3 text-base sm:text-xl text-amber-100/80 font-light max-w-2xl mx-auto">
-          OGs of MGIT celebrating unforgettable memories, boundless energy, and the enduring spirit of CSE 2.
-        </p>
-      </div>
-
-      <!-- Drive Link CTA -->
-      <div class="mt-8 flex items-center justify-center">
-        <a href="https://drive.google.com/drive/folders/113pdQ3sQI-rSpyySxFSQzCH5jfqVXxw7" target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-sm font-black uppercase tracking-wider text-[#0c0704] bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 hover:scale-105 transition-all shadow-[0_0_30px_rgba(245,158,11,0.55)] cursor-pointer">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-            <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
-            <path d="M12 12v9" />
-            <path d="m8 17 4 4 4-4" />
+      <div class="orrery" data-orrery>
+        <div class="orrery-map">
+          <svg class="orrery-lines" viewBox="0 0 1000 640" aria-hidden="true" focusable="false">
+            <ellipse class="orb-line orb-line--outer" cx="500" cy="320" rx="400" ry="255" transform="rotate(6 500 320)"/>
+            <ellipse class="orb-line" cx="500" cy="320" rx="300" ry="150" transform="rotate(-8 500 320)"/>
+            <line class="orb-link" x1="500" y1="320" x2="500" y2="320" pathLength="1"/>
           </svg>
-          <span>View Full Drive Archive</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-            <polyline points="15 3 21 3 21 9" />
-            <line x1="10" x2="21" y1="14" y2="3" />
-          </svg>
-        </a>
+          <span class="orrery-moon" aria-hidden="true"></span>
+          <div class="orrery-nodes" data-orrery-nodes></div>
+        </div>
+        <div class="orrery-core" data-orrery-core aria-live="polite"></div>
       </div>
 
-      <!-- Royal Golden Memory Vault Teaser Box -->
-      <div class="mt-16 max-w-3xl mx-auto relative rounded-3xl p-1 overflow-hidden">
-        <div
-          class="absolute -inset-1 rounded-3xl bg-gradient-to-r from-amber-600 via-yellow-400 to-amber-700 blur-sm opacity-70">
+      <ul class="stations" data-stations></ul>
+    </section>
+
+    <!-- =================================================================
+         CHAPTER 03 — THE JOURNEY
+         ================================================================= -->
+    <section id="journey" class="chapter ch-journey" data-chapter="03" data-title="The Journey" data-mood="-0.45" aria-labelledby="journey-title">
+      <header class="ch-head reveal">
+        <p class="ch-index"><span class="ch-num">03</span><span class="ch-rule" aria-hidden="true"></span><span class="eyebrow">The journey</span></p>
+        <h2 id="journey-title" class="ch-title">From the first lamp <em>to the last song.</em></h2>
+        <p class="ch-lede"><span data-bind="datetime.fullDateString">Thursday, 15 October 2026</span> · <span data-bind="datetime.venue">E-201</span>. Seven milestones, one morning.</p>
+      </header>
+      <div class="journey" data-journey>
+        <svg class="journey-path" aria-hidden="true" focusable="false">
+          <path class="jp-base"/>
+          <path class="jp-lit"/>
+        </svg>
+        <ol class="milestones" data-milestones></ol>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         CHAPTER 04 — THE PEOPLE BEHIND ANVAYA
+         ================================================================= -->
+    <section id="people" class="chapter ch-people" data-chapter="04" data-title="The People Behind ANVAYA" data-mood="-0.85" aria-labelledby="people-title">
+      <header class="ch-head reveal">
+        <p class="ch-index"><span class="ch-num">04</span><span class="ch-rule" aria-hidden="true"></span><span class="eyebrow">The people behind ANVAYA</span></p>
+        <h2 id="people-title" class="ch-title">Guiding lights <em>of the evening sky.</em></h2>
+        <p class="ch-lede">Our guests of honour, who lead MGIT and the Department of Computer Science &amp; Engineering — and the seniors who built this day.</p>
+      </header>
+      <div class="portraits" data-portraits></div>
+      <div class="letters" data-letters>
+      <article class="letter reveal" aria-labelledby="letter-title">
+        <p class="eyebrow" data-bind="welcome.badge">A heartfelt welcome from the seniors</p>
+        <h3 id="letter-title" class="letter-title" data-bind="welcome.title">The OGs of CSE 2 bring you a celebration to remember.</h3>
+        <p class="letter-lead" data-bind="welcome.lead">One department. Two batches. Countless memories waiting to be made.</p>
+        <div class="letter-body">
+          <p class="letter-heading" data-bind="welcome.letterHeading">Welcome to MGIT. Your next chapter starts here.</p>
+          <p data-bind="welcome.letterBody">To our wonderful freshers: welcome to a journey of discovery, friendship, challenges, and growth.</p>
         </div>
-        <div
-          class="relative rounded-[22px] bg-gradient-to-r from-[#140b07] via-[#22120a] to-[#140b07] p-6 sm:p-10 text-center border border-amber-500/35 shadow-[0_0_40px_rgba(245,158,11,0.25)] backdrop-blur-xl">
-          <div
-            class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/15 border border-amber-400/50 text-amber-200 text-xs font-bold tracking-widest uppercase mb-3 shadow-[0_0_15px_rgba(245,158,11,0.3)]">
-            <svg width="14" height="14" class="text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2">
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12 6 12 12 14 14" />
-            </svg>
-            <span>UPCOMING EVENT HIGHLIGHTS</span>
-          </div>
-          <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-wide">
-            ANVAYA 2K26 Highlights Gallery — Coming Soon!
-          </h3>
-          <p class="mt-3 text-base sm:text-lg text-amber-100/80 font-light max-w-xl mx-auto italic">
-            "Capturing today's memories for tomorrow."
+        <p class="letter-sign">— The seniors of <span data-bind="brand.department">CSE 2</span></p>
+      </article>
+      <figure class="guest-invite reveal" data-guest-invitation hidden>
+        <button type="button" class="guest-invite-frame" data-guest-open aria-label="View the invitation sent to our guests of honour">
+          <img data-guest-img alt="" width="853" height="1280" decoding="async">
+        </button>
+        <figcaption>
+          <span class="eyebrow">The invitation to our guests</span>
+          <span class="guest-invite-note">Select to view or download</span>
+        </figcaption>
+      </figure>
+      </div>
+      <div class="coordinators" data-coordinators hidden></div>
+    </section>
+
+    <!-- =================================================================
+         CHAPTER 05 — ECHOES OF THE PAST
+         ================================================================= -->
+    <section id="memories" class="chapter ch-memories" data-chapter="05" data-title="Echoes of the Past" data-mood="0.95" aria-labelledby="memories-title">
+      <header class="ch-head reveal">
+        <p class="ch-index"><span class="ch-num">05</span><span class="ch-rule" aria-hidden="true"></span><span class="eyebrow">Echoes of the past</span></p>
+        <h2 id="memories-title" class="ch-title">Memories, reflected <em>on a midnight lake.</em></h2>
+      </header>
+      <div class="lake" data-memories></div>
+    </section>
+
+    <!-- =================================================================
+         CHAPTER 06 — BECOME PART OF THE STORY
+         ================================================================= -->
+    <section id="story" class="chapter ch-story" data-chapter="06" data-title="Become Part of the Story" data-mood="0.2" aria-labelledby="story-title">
+      <header class="ch-head reveal">
+        <p class="ch-index"><span class="ch-num">06</span><span class="ch-rule" aria-hidden="true"></span><span class="eyebrow">Become part of the story</span></p>
+        <h2 id="story-title" class="ch-title">Your name, <em>written in gold.</em></h2>
+        <p class="ch-lede">Create a personal ANVAYA invitation to keep or share with your batchmates.</p>
+      </header>
+
+      <div class="invite" data-invite>
+        <form class="invite-form" data-invite-form novalidate>
+          <label class="field">
+            <span class="field-label">Your name</span>
+            <input class="field-input" type="text" name="guest" maxlength="32" autocomplete="off" spellcheck="false" placeholder="e.g. Aarav" data-invite-name aria-describedby="invite-privacy">
+          </label>
+          <p id="invite-privacy" class="privacy-note">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            Your name never leaves this device. The invitation is drawn in your browser — nothing is uploaded or stored.
           </p>
-        </div>
+          <div class="actions">
+            <button type="button" class="btn btn-gold" data-invite-save data-magnetic>
+              <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+              <span>Save invitation</span>
+            </button>
+            <button type="button" class="btn btn-line" data-invite-share>
+              <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="18" cy="18" r="2.4"/><path d="M8.2 10.9l7.6-3.8M8.2 13.1l7.6 3.8"/></svg>
+              <span>Share</span>
+            </button>
+          </div>
+          <p class="invite-status" data-invite-status role="status"></p>
+        </form>
+        <figure class="invite-preview">
+          <canvas data-invite-canvas width="1080" height="1350" role="img" aria-label="Preview of your ANVAYA 2026 invitation"></canvas>
+        </figure>
       </div>
-    </div>
-  </section>
+    </section>
 
-
-  <!-- =========================================================================
-       10. FOOTER & CALENDAR CELEBRATION RSVP
-       ========================================================================= -->
-  <footer id="reminder" class="relative pt-20 pb-16 px-4 sm:px-6 lg:px-8 z-10 overflow-hidden">
-    <div
-      class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[550px] bg-gradient-to-t from-amber-500/20 via-amber-600/5 to-transparent rounded-full blur-[150px] pointer-events-none">
-    </div>
-
-    <div class="max-w-5xl mx-auto w-full relative z-10">
-      <div class="glass-panel p-8 sm:p-14 text-center border-amber-500/35 shadow-lg overflow-hidden relative">
-        <div class="flex items-center justify-center gap-3 mb-4">
-          <span class="text-xs sm:text-sm font-bold tracking-[0.4em] uppercase text-amber-300">The Final Call</span>
-        </div>
-
-        <h2 class="font-serif text-4xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight uppercase">
-          See you at <span class="metallic-text">ANVAYA!</span>
+    <!-- =================================================================
+         CHAPTER 07 — THE FINAL REVEAL
+         ================================================================= -->
+    <section id="finale" class="chapter ch-finale" data-chapter="07" data-title="The Final Reveal" data-mood="0" aria-labelledby="finale-title">
+      <div class="finale-stage" data-finale>
+        <p class="finale-line" data-bind="brand.closingLine">Every beginning becomes a story.</p>
+        <h2 id="finale-title" class="finale-mark">
+          <span class="sr-only">ANVAYA 2026</span>
+          <span class="wm" data-wordmark id="finale-wordmark">
+            <img class="wm-layer wm-gold" src="images/brand/wordmark-key.webp" alt="" width="1075" height="505" loading="lazy" decoding="async">
+            <img class="wm-layer wm-true" src="images/brand/wordmark-key.webp" alt="" width="1075" height="505" loading="lazy" decoding="async">
+            <img class="wm-layer wm-glint" src="images/brand/wordmark-key.webp" alt="" width="1075" height="505" loading="lazy" decoding="async">
+          </span>
         </h2>
-        <p class="mt-4 text-base sm:text-xl text-amber-100/80 max-w-2xl mx-auto font-light">
-          Mark your calendar, invite your batchmates, and prepare for an unforgettable celebration.
+        <p class="finale-when">
+          <span data-bind="datetime.fullDateString">Thursday, 15 October 2026</span>
+          <span class="dot" aria-hidden="true"></span>
+          <span data-bind="datetime.time">9:30 AM</span> <span data-bind="datetime.timezone">IST</span>
+          <span class="dot" aria-hidden="true"></span>
+          <span data-bind="datetime.venue">E-201</span>, <span data-bind="datetime.venueLocation">MGIT Campus — E Block</span>
         </p>
-
-        <!-- RSVP & Calendar CTAs -->
-        <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <a id="add-to-calendar-btn" href="#" target="_blank" rel="noopener noreferrer"
-            class="flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-black uppercase tracking-wider text-[#0c0704] bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 hover:scale-105 transition-all shadow-[0_0_25px_rgba(245,158,11,0.5)] cursor-pointer">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-              <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
-              <line x1="16" x2="16" y1="2" y2="6" />
-              <line x1="8" x2="8" y1="2" y2="6" />
-              <line x1="3" x2="21" y1="10" y2="10" />
-              <line x1="12" x2="12" y1="14" y2="18" />
-              <line x1="10" x2="14" y1="16" y2="16" />
-            </svg>
-            <span>Add to Google Calendar</span>
+        <div class="actions actions--center">
+          <a class="btn btn-gold" data-calendar href="#" target="_blank" rel="noopener noreferrer" data-magnetic>
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="1.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+            <span>Save the date</span>
           </a>
-
-          <button id="celebrate-btn"
-            class="flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-bold uppercase tracking-wider text-amber-200 bg-amber-500/15 border border-amber-500/35 hover:bg-amber-500/25 hover:border-amber-400 hover:scale-105 transition-all shadow-[0_0_20px_rgba(245,158,11,0.2)] cursor-pointer">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5.8 11.3 12.7 4.4a2 2 0 0 1 2.8 0l4.2 4.2a2 2 0 0 1 0 2.8l-6.9 6.9" />
-              <path d="m2 22 3-3" />
-              <path d="M9.5 14.5 4 20" />
-            </svg>
-            <span>Celebrate ANVAYA ✨</span>
+          <button type="button" class="btn btn-line" data-artwork-open>
+            <span>View the official artwork</span>
           </button>
         </div>
       </div>
 
-      <!-- Instagram Official Card -->
-      <div class="mt-12 flex flex-col items-center justify-center text-center">
-        <a href="https://instagram.com/anvaya_mgit" target="_blank" rel="noopener noreferrer"
-          class="group inline-flex items-center gap-3.5 px-8 py-4 rounded-2xl bg-[#140b07]/80 border border-amber-500/30 hover:border-amber-400 transition-all shadow-glass hover:shadow-[0_0_30px_rgba(245,158,11,0.4)] hover:-translate-y-0.5">
-          <div
-            class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 to-yellow-400 p-0.5 flex items-center justify-center shadow-[0_0_15px_rgba(245,158,11,0.4)]">
-            <div class="w-full h-full bg-[#140b07] rounded-[10px] flex items-center justify-center text-amber-300">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-              </svg>
-            </div>
-          </div>
-          <div class="text-left">
-            <span class="text-xs uppercase tracking-widest text-amber-200/80 block font-mono">Official Instagram
-              Channel</span>
-            <span
-              class="text-base sm:text-lg font-bold text-white group-hover:text-amber-300 transition-colors flex items-center gap-1.5">
-              Connect with us on Instagram
-              <svg width="16" height="16" class="text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                <polyline points="15 3 21 3 21 9" />
-                <line x1="10" x2="21" y1="14" y2="3" />
-              </svg>
-            </span>
-          </div>
-        </a>
-        <span class="text-xs text-amber-200/60 mt-2 font-mono">@anvaya_mgit</span>
-      </div>
-
-      <!-- Bottom Credits -->
-      <div
-        class="mt-16 pt-8 border-t border-amber-500/20 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
-        <div class="flex flex-col items-center sm:items-start">
-          <span class="font-serif text-sm tracking-widest text-white uppercase font-bold">ANVAYA 2K26 • CSE 2</span>
-          <span class="text-xs text-amber-200/70 mt-0.5">Mahatma Gandhi Institute of Technology (MGIT)</span>
+      <footer class="site-foot">
+        <div class="foot-col">
+          <p class="foot-title">ANVAYA 2026 · <span data-bind="brand.department">CSE 2</span></p>
+          <p data-bind="brand.institution">Mahatma Gandhi Institute of Technology</p>
+          <p data-bind="brand.departmentFullName">Department of Computer Science &amp; Engineering — CSE 2</p>
         </div>
+        <ul class="foot-links">
+          <li><a data-href="links.instagramUrl" href="https://instagram.com/anvaya_mgit" target="_blank" rel="noopener noreferrer">Instagram <span data-bind="links.instagramHandle">@anvaya_mgit</span></a></li>
+          <li><a data-href="links.driveGalleryUrl" href="https://drive.google.com/drive/folders/113pdQ3sQI-rSpyySxFSQzCH5jfqVXxw7" target="_blank" rel="noopener noreferrer">Memory archive (Google Drive)</a></li>
+          <li><a href="images/poster.jpeg" download="ANVAYA-2026-artwork.jpg">Download the artwork</a></li>
+          <li><button type="button" class="text-link" data-replay>Replay the awakening</button></li>
+        </ul>
+        <p class="foot-credit" data-bind="links.footerCredit">Made by CSE 2 with fondness</p>
+      </footer>
+    </section>
+  </main>
 
-        <div
-          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-amber-500/30 bg-[#140b07]/50 backdrop-blur-sm shadow-[0_0_15px_rgba(245,158,11,0.15)]">
-          <svg width="14" height="14" class="text-amber-400 fill-amber-400/40" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-          </svg>
-          <span class="text-xs sm:text-sm font-medium tracking-wide text-amber-100">Made by CSE-2 with
-            fondness</span>
-        </div>
-      </div>
+  <!-- Lightbox shared by the memories gallery and the artwork viewer -->
+  <dialog class="lightbox" data-lightbox aria-label="Image viewer">
+    <div class="lb-frame">
+      <img class="lb-img" data-lb-img alt="">
+      <p class="lb-caption" data-lb-caption></p>
     </div>
-  </footer>
-
-  <!-- Poster Lightbox Modal -->
-  <div id="poster-modal"
-    class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="relative max-w-2xl w-full flex flex-col items-center animate-fadeIn">
-      <button id="close-poster-modal"
-        class="absolute -top-12 right-0 text-white hover:text-amber-300 transition-colors p-2 text-xs uppercase tracking-widest flex items-center gap-2 cursor-pointer">
-        <span>Close</span>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
-      <div
-        class="p-2 sm:p-3 rounded-3xl bg-gradient-to-tr from-amber-600 via-yellow-400 to-amber-700 shadow-[0_0_50px_rgba(245,158,11,0.6)]">
-        <img src="images/poster.jpeg" alt="ANVAYA 2K26 Official Artwork"
-          class="w-full max-h-[75vh] object-contain rounded-2xl" />
-      </div>
-      <div class="mt-4 flex items-center gap-4">
-        <a href="images/poster.jpeg" download="ANVAYA_2K26_Poster.jpeg"
-          class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-wider text-[#0c0704] bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 hover:scale-105 transition-all shadow-[0_0_20px_rgba(245,158,11,0.5)]">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            <polyline points="7 10 12 15 17 10" />
-            <line x1="12" y1="15" x2="12" y2="3" />
-          </svg>
-          <span>Download Artwork</span>
-        </a>
-      </div>
+    <div class="lb-controls">
+      <button type="button" class="tool" data-lb-prev aria-label="Previous image"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <span class="lb-count" data-lb-count aria-live="polite"></span>
+      <button type="button" class="tool" data-lb-next aria-label="Next image"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      <a class="tool" data-lb-download download aria-label="Download image"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></a>
+      <button type="button" class="tool" data-lb-close aria-label="Close viewer"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
-  </div>
+  </dialog>
 
-  <!-- App Main Entry Point (Unified bundle works with file:// and http://) -->
-  <script src="js/bundle.js"></script>
+  <noscript>
+    <div class="noscript">ANVAYA 2026 · Thursday, 15 October 2026 · 9:30 AM IST · E-201, MGIT Campus — E Block · Instagram @anvaya_mgit</div>
+  </noscript>
+
+  <script src="js/config.js" defer></script>
+  <script src="js/core/motion.js" defer></script>
+  <script src="js/core/sound.js" defer></script>
+  <script src="js/world/ambient.js" defer></script>
+  <script src="js/world/scene.js" defer></script>
+  <script src="js/world/wordmark.js" defer></script>
+  <script src="js/world/thread.js" defer></script>
+  <script src="js/ui/nav.js" defer></script>
+  <script src="js/ui/lightbox.js" defer></script>
+  <script src="js/chapters/world.js" defer></script>
+  <script src="js/chapters/discover.js" defer></script>
+  <script src="js/chapters/journey.js" defer></script>
+  <script src="js/chapters/people.js" defer></script>
+  <script src="js/chapters/memories.js" defer></script>
+  <script src="js/chapters/invitation.js" defer></script>
+  <script src="js/chapters/finale.js" defer></script>
+  <script src="js/intro.js" defer></script>
+  <script src="js/main.js" defer></script>
 </body>
-
 </html>

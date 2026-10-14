@@ -1,61 +1,63 @@
-# ANVAYA 2K26 — CSE 2 Freshers' Party Website
+# ANVAYA 2026 — Bonds Beyond Beginnings
 
-The official celebration website for **ANVAYA 2K26**, hosted with fondness by **CSE 2** at **Mahatma Gandhi Institute of Technology (MGIT)**.
+The freshers' celebration website for **ANVAYA 2026**, hosted by the seniors of **CSE 2** at
+**Mahatma Gandhi Institute of Technology (MGIT)** — Thursday, 15 October 2026, 9:30 AM, E-201.
 
-Built with an original **Royal Golden Solar & Obsidian Amber** design language, unified with the majestic golden banyan tree backdrop and interactive 3D falling autumn foliage.
+The site is one continuous world drawn from the official artwork: teal and burgundy marble,
+a textured moon over a dark skyline, reflective water, and a golden thread that connects every chapter.
 
----
+## Experience
 
-## 🌟 Key Features & Design System
+1. **The Awakening** — darkness, rising marble light, a point of gold that draws an orbit, the moon,
+   city and water, then the official ANVAYA lettering revealed by travelling light. Skippable (button or Esc).
+2. **Enter ANVAYA** — the emblem or *Explore ANVAYA* sends energy through the orbits, the camera
+   travels toward the moon, a gold threshold disperses into teal and burgundy, and the site appears.
+3. **The Living World** — seven chapters:
+   01 The World of ANVAYA (hero, live countdown, calendar) · 02 Discover the Experience (orbital destinations) ·
+   03 The Journey (scroll-lit timeline) · 04 The People (faculty portraits, seniors' letter, guest invitation) ·
+   05 Echoes of the Past (midnight-lake gallery) · 06 Become Part of the Story (personal invitation generator) ·
+   07 The Final Reveal.
 
-1. **The Golden Threshold Opening Entrance**:
-   - Radiant solar sunburst seal with 24K liquid gold rays and concentric orbital rings.
-   - Smooth entrance unwrap via click, scroll, touch swipe, or "Skip Intro".
-2. **Ancient Golden Tree Backdrop & Dynamic Leaf Engine**:
-   - Fixed high-resolution golden banyan tree canopy with sunbeam burst and warm midnight vignette.
-   - Realistic 3D fluttering golden leaves that swirl, tumble, and cascade dynamically when you scroll.
-   - Ambient golden solar stardust and drifting ember motes.
-3. **Liquid 24K Gold Typography**:
-   - Custom gold foil gradients, warm amber drop shadows, and gilded glassmorphism panels.
-4. **Royal Gilded Chronograph & Countdown**:
-   - Live Days, Hours, Minutes, Seconds countdown to **Thursday, 15 October 2026 at 9:30 AM IST**.
-   - Interactive 3D analog luxury chronograph with real-time synchronized hour, minute, and second hands.
-5. **Curated Event Itinerary**:
-   - `09:30 AM - 09:50 AM` • Welcoming Guests & Inauguration
-   - `09:50 AM - 10:20 AM` • Speeches & Inspiring Words (Principal, HOD, Dr. Meera Alphy, Dr. Madhubabu, senior mentors)
-   - `10:20 AM - 10:30 AM` • Dance Performance (Act I)
-   - `10:30 AM - 10:50 AM` • Singing & Musical Showcase
-   - `10:50 AM - 11:10 AM` • Dance Performance (Act II)
-   - `11:10 AM - 12:00 PM` • Rose Ceremony
-   - `12:00 PM - 12:30 PM` • Everyone Dancing (DJ Jamming Floor)
-6. **Guests of Honor / Faculty Leadership**:
-   - **Prof. G. ChandraMohan Reddy** — Respected Principal
-   - **Prof. T. V. Rajini Kanth** — Honourable HOD
-   - **Dr. Meera Alphy** — Beloved Faculty Incharge (CSE 2)
-   - **Dr. Madhubabu** — Assistant Professor (CSE)
-7. **Archived Memories Vault**:
-   - Direct link to the Google Drive archive and luxury gold teaser vault.
-8. **Interactive RSVP & Calendar**:
-   - One-click Google Calendar generator pre-filled with date, time, venue (E-201, MGIT Campus), and event description.
-   - "Celebrate ANVAYA" shimmering golden & champagne foil confetti explosion.
-9. **Official Socials**:
-   - Instagram: [`@anvaya_mgit`](https://instagram.com/anvaya_mgit)
+Deep links such as `/#journey` skip the opening. Motion can be reduced from the top bar (the OS
+setting is respected by default). Sound is off until the visitor turns it on.
 
----
+## Run locally
 
-## 🚀 How to Run Locally
+No build step and no dependencies.
 
-You can run the site using Python's built-in web server:
-
-```powershell
-python -m http.server 3000
+```bash
+python -m http.server 4317
 ```
 
-Then open your browser at:
-👉 **[http://127.0.0.1:3000](http://127.0.0.1:3000)**
+Then open http://127.0.0.1:4317. Opening `index.html` directly also works, but browsers block
+saving the generated invitation image from `file://` pages.
 
----
+## Editing content
 
-## ⚙️ How to Customize Variables
+Everything shown on the site comes from [`js/config.js`](js/config.js): dates, venue, schedule,
+destinations, faculty, links, and assets.
 
-All configuration is centralized inside `js/config.js`. You can edit dates, times, venue names, or links at any time without touching HTML.
+- **Portraits** live in `images/people/`. A person whose photo is missing is shown with a monogram.
+- **Guest invitation**: save the image as `images/invitation-letter.jpg` and it appears in Chapter 04.
+- **Past-event photos**: add entries to `memories` in the config. Until then Chapter 05 shows the
+  still-lake state with a link to the Drive archive.
+- **Coordinators** are kept hidden until `coordinatorsVerified` is set to `true`.
+
+## Structure
+
+```
+index.html
+css/   tokens.css · base.css · intro.css · chapters.css
+js/    config.js · intro.js · main.js
+       core/   motion.js (motion settings + shared frame loop) · sound.js
+       world/  ambient.js (marble shader + dust) · scene.js (moon, city, water, orbits)
+               wordmark.js (logo reveal) · thread.js (page-long golden thread)
+       ui/     nav.js · lightbox.js
+       chapters/ world · discover · journey · people · memories · invitation · finale
+images/brand/  assets derived from the official artwork (see below)
+```
+
+`images/brand/` is generated from `images/poster.jpeg`, the only official artwork in the repo (a flattened
+image). The wordmark is a luminance-keyed extraction of the poster's own lettering, not a redrawn
+logo. If a vector or transparent master of the logo becomes available, replace
+`wordmark-key.webp` / `wordmark-key-sm.webp` with it.
