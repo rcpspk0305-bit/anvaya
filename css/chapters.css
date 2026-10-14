@@ -635,3 +635,112 @@
   .hero-panel .actions .btn { width: 100%; }
   .btn { padding: 0 1.2em; letter-spacing: .16em; }
 }
+
+/* ==========================================================================
+   Phone layout — alignment and readability
+   ========================================================================== */
+.copy-narrow { display: none; }
+@media (max-width: 899px) {
+  .copy-wide { display: none; }
+  .copy-narrow { display: inline; }
+}
+@media (max-width: 759px) {
+  .chapter { padding-left: 20px; padding-right: 20px; }
+  .ch-head { margin-bottom: 40px; }
+  .ch-index { gap: 12px; margin-bottom: 16px; }
+  .ch-rule { width: 28px; }
+  .ch-index .eyebrow { letter-spacing: .22em; font-size: .68rem; }
+  .ch-title { font-size: clamp(2.1rem, 9.5vw, 2.8rem); line-height: 1.06; }
+  .ch-lede { font-size: 1rem; margin-top: 16px; }
+
+  .ch-world { padding-top: 88px; }
+  .hero-mark .eyebrow { font-size: .66rem; letter-spacing: .22em; }
+  .hero-tagline { font-size: 2rem; }
+  .hero-lede, .hero-meaning { max-width: none; }
+  .hero-panel { padding: 22px 18px; }
+  .countdown-units { margin-top: 12px; }
+  .cd-unit { padding: 0 8px; }
+  .cd-val { font-size: 2.3rem; }
+  .cd-name { font-size: .56rem; letter-spacing: .16em; }
+  .colophon div { grid-template-columns: 78px 1fr; }
+  .scroll-cue { margin-top: 40px; }
+
+  .station-head { grid-template-columns: 48px 1fr 18px; gap: 14px; padding: 16px; }
+  .station-orbit { width: 48px; height: 48px; }
+  .station-body { padding: 0 16px 18px; }
+
+  .portrait:nth-child(even) { margin-top: 0; }
+  .portraits { column-gap: 14px; row-gap: 36px; }
+  .portrait figcaption { margin-top: 14px; }
+  .portrait-name { font-size: 1.12rem; }
+  .portrait-role { font-size: .56rem; letter-spacing: .18em; }
+  .portrait-dept { font-size: .76rem; }
+  .letter { padding: 32px 20px; }
+  .letter-title { font-size: 1.85rem; }
+  .letter-lead { font-size: 1.2rem; }
+
+  .lake--still { gap: 28px; }
+  .lake-text { font-size: 1.25rem; }
+
+  .invite { gap: 36px; }
+  .invite-form .actions .btn { flex: 1 1 140px; }
+  .invite-preview canvas { transform: none; }
+
+  .finale-stage { padding-top: 84px; }
+  .finale-line { font-size: 1.7rem; padding: 0 8px; }
+  .finale-when { font-size: .66rem; letter-spacing: .14em; gap: 4px 10px; }
+  .finale-when .dot { display: none; }
+  .finale-when { flex-direction: column; }
+  .finale-stage .actions { width: 100%; flex-direction: column; align-items: stretch; }
+  .site-foot { margin-top: 56px; }
+}
+
+/* ---------------- 04 · portraits: circular frames on a horizontal track ---------------- */
+.portraits-wrap { position: relative; }
+.portraits {
+  display: flex;
+  gap: clamp(20px, 3vw, 44px);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 4px;
+  padding: 12px 4px 20px;
+  scrollbar-width: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 24px, #000 calc(100% - 48px), transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 24px, #000 calc(100% - 48px), transparent 100%);
+}
+.portraits::-webkit-scrollbar { display: none; }
+.portraits:focus-visible { outline-offset: 6px; }
+.portraits .portrait {
+  flex: 0 0 clamp(210px, 24vw, 270px);
+  scroll-snap-align: start;
+  margin-top: 0 !important;
+  text-align: center;
+}
+.portraits .arch {
+  aspect-ratio: 1;
+  width: 100%;
+  border-radius: 50%;
+  border: 1px solid rgba(218, 189, 124, .55);
+  box-shadow: 0 0 0 6px rgba(28, 9, 17, .55), 0 0 0 7px rgba(218, 189, 124, .22), 0 34px 70px -34px rgba(0, 0, 0, .95);
+}
+.portraits .arch::after { inset: 8px; border-radius: 50%; }
+.portraits .arch-img { object-position: 50% 28%; }
+.portraits .portrait:hover .arch { box-shadow: 0 0 0 6px rgba(28, 9, 17, .55), 0 0 0 7px rgba(240, 217, 164, .45), 0 44px 80px -36px rgba(0, 0, 0, 1); }
+.portraits .portrait figcaption { align-items: center; margin-top: 22px; }
+.portraits .portrait-dept { max-width: 26ch; }
+
+.portraits-nav { display: none; align-items: center; justify-content: center; gap: 16px; margin-top: 18px; }
+.portraits-wrap.is-scrollable .portraits-nav { display: flex; }
+.portraits-nav .tool[disabled] { opacity: .35; cursor: default; }
+.portraits-hint { font-size: .68rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--ivory-3); }
+
+@media (max-width: 759px) {
+  .portraits { margin: 0 -20px; padding-left: 20px; padding-right: 20px; scroll-padding-inline: 20px; gap: 18px;
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent 100%);
+            mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent 100%); }
+  .portraits .portrait { flex-basis: 68vw; max-width: 260px; }
+  .portraits .portrait-name { font-size: 1.3rem; }
+  .portraits .portrait-role { font-size: .62rem; }
+  .portraits .portrait-dept { font-size: .82rem; }
+}

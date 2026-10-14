@@ -15,7 +15,7 @@
   const html = document.documentElement;
   const SEEN = 'anvaya.introSeen';
 
-  let root, mark, signal = { aborted: false }, entering = false, entered = false;
+  let root, mark, signal = { aborted: false }, travel = { aborted: false }, entering = false, entered = false;
 
   const seen = () => { try { return sessionStorage.getItem(SEEN) === '1'; } catch (e) { return false; } };
   const markSeen = () => { try { sessionStorage.setItem(SEEN, '1'); } catch (e) { /* ignore */ } };
@@ -119,6 +119,8 @@
 
   function arrive() {
     // swap the scene's anchor to the hero wordmark while the threshold hides the cut
+    // stop the camera travel before resetting it, so no tween can re-apply the zoom after the cut
+    travel.aborted = true;
     lockPage(false);
     html.classList.add('world-entered');
     if (location.hash && location.hash.length > 1) {
@@ -177,10 +179,12 @@
     if (L) { th.style.setProperty('--tx', L.mx + 'px'); th.style.setProperty('--ty', L.my + 'px'); }
 
     // 2–3. energy runs through the orbits, which accelerate
-    tween({ duration: 0.7, easing: ease.outCubic, update: v => { S.energy = v; } });
-    tween({ duration: 1.5, easing: ease.inExpo, update: v => { S.spin = 1 + v * 18; } });
+    travel = { aborted: false };
+    const t = travel;
+    tween({ duration: 0.7, easing: ease.outCubic, signal: t, update: v => { S.energy = v; } });
+    tween({ duration: 1.5, easing: ease.inExpo, signal: t, update: v => { S.spin = 1 + v * 18; } });
     // 4–5. the camera travels toward the moon and the city; near towers part with parallax
-    tween({ duration: 1.55, delay: 0.2, easing: ease.inOutCubic, update: v => { S.dolly = v; S.bright = v; } });
+    tween({ duration: 1.45, delay: 0.15, easing: ease.inOutCubic, signal: t, update: v => { S.dolly = v; S.bright = v; } });
     // 6. a luminous threshold
     const gTh = th.querySelector('.th-gold'), mTh = th.querySelector('.th-mineral');
     await tween({ duration: 0.55, delay: 1.05, easing: ease.inCubic, update: v => { gTh.style.opacity = v; A.ambient.flare(v * 0.8); } });

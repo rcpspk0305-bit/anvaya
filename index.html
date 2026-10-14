@@ -207,7 +207,7 @@
       <header class="ch-head reveal">
         <p class="ch-index"><span class="ch-num">02</span><span class="ch-rule" aria-hidden="true"></span><span class="eyebrow">Discover the experience</span></p>
         <h2 id="discover-title" class="ch-title">Six destinations, <em>one orbit.</em></h2>
-        <p class="ch-lede">Every point of light is a moment from the day’s programme. Hover or focus a destination to preview it; select it to open the details.</p>
+        <p class="ch-lede">Every point of light is a moment from the day’s programme. <span class="copy-wide">Hover or focus a destination to preview it; select it to open the details.</span><span class="copy-narrow">Tap a destination to see what happens there.</span></p>
       </header>
 
       <div class="orrery" data-orrery>
@@ -253,7 +253,14 @@
         <h2 id="people-title" class="ch-title">Guiding lights <em>of the evening sky.</em></h2>
         <p class="ch-lede">Our guests of honour, who lead MGIT and the Department of Computer Science &amp; Engineering — and the seniors who built this day.</p>
       </header>
-      <div class="portraits" data-portraits></div>
+      <div class="portraits-wrap">
+        <div class="portraits" data-portraits tabindex="0" role="region" aria-label="Guests of honour — scroll sideways to see everyone"></div>
+        <div class="portraits-nav">
+          <button type="button" class="tool" data-portraits-prev aria-label="Previous guest"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <span class="portraits-hint">Swipe or scroll sideways</span>
+          <button type="button" class="tool" data-portraits-next aria-label="Next guest"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
       <div class="letters" data-letters>
       <article class="letter reveal" aria-labelledby="letter-title">
         <p class="eyebrow" data-bind="welcome.badge">A heartfelt welcome from the seniors</p>
@@ -342,11 +349,11 @@
           </span>
         </h2>
         <p class="finale-when">
-          <span data-bind="datetime.fullDateString">Thursday, 15 October 2026</span>
+          <span class="fw-group"><span data-bind="datetime.fullDateString">Thursday, 15 October 2026</span></span>
           <span class="dot" aria-hidden="true"></span>
-          <span data-bind="datetime.time">9:30 AM</span> <span data-bind="datetime.timezone">IST</span>
+          <span class="fw-group"><span data-bind="datetime.time">9:30 AM</span> <span data-bind="datetime.timezone">IST</span></span>
           <span class="dot" aria-hidden="true"></span>
-          <span data-bind="datetime.venue">E-201</span>, <span data-bind="datetime.venueLocation">MGIT Campus — E Block</span>
+          <span class="fw-group"><span data-bind="datetime.venue">E-201</span>, <span data-bind="datetime.venueLocation">MGIT Campus — E Block</span></span>
         </p>
         <div class="actions actions--center">
           <a class="btn btn-gold" data-calendar href="#" target="_blank" rel="noopener noreferrer" data-magnetic>

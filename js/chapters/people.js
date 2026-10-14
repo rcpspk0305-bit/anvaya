@@ -50,6 +50,30 @@
         });
       }
 
+      // horizontal scroller: arrow buttons move one portrait at a time and disable at the ends
+      const prev = document.querySelector('[data-portraits-prev]');
+      const next = document.querySelector('[data-portraits-next]');
+      const step = () => {
+        const item = root.querySelector('.portrait');
+        return item ? item.getBoundingClientRect().width + parseFloat(getComputedStyle(root).columnGap || 0) : root.clientWidth * 0.8;
+      };
+      const behavior = () => (A.motion.reduced ? 'auto' : 'smooth');
+      const syncNav = () => {
+        const max = root.scrollWidth - root.clientWidth - 2;
+        prev.disabled = root.scrollLeft <= 2;
+        next.disabled = root.scrollLeft >= max;
+        root.parentElement.classList.toggle('is-scrollable', max > 2);
+      };
+      prev.addEventListener('click', () => root.scrollBy({ left: -step(), behavior: behavior() }));
+      next.addEventListener('click', () => root.scrollBy({ left: step(), behavior: behavior() }));
+      root.addEventListener('scroll', syncNav, { passive: true });
+      root.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight') { e.preventDefault(); root.scrollBy({ left: step(), behavior: behavior() }); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); root.scrollBy({ left: -step(), behavior: behavior() }); }
+      });
+      if ('ResizeObserver' in window) new ResizeObserver(syncNav).observe(root);
+      syncNav();
+
       // the printed invitation for our guests of honour — shown only when the image exists
       const inv = document.querySelector('[data-guest-invitation]');
       const src = C.assets.guestInvitation;
